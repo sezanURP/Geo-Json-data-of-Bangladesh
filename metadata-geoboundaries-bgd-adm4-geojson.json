@@ -1,0 +1,15 @@
+{
+    "created": "2022-01-06T14:04:25.291732",
+    "description": "GeoJSON ADM4 boundaries for Bangladesh",
+    "format": "GeoJSON",
+    "download_url": "https://github.com/wmgeolab/geoBoundaries/raw/9469f09/releaseData/gbOpen/BGD/ADM4/geoBoundaries-BGD-ADM4.geojson",
+    "id": "0f77272a-7d8d-4eab-8fff-3154a0bec098",
+    "last_modified": "2025-08-26T13:57:24",
+    "metadata_modified": "2025-08-26T14:23:17.806969",
+    "microdata": false,
+    "dataset_id": "8773bbaa-7d4e-4d9a-9e67-4714fd08fd76",
+    "resource_type": "api",
+    "name": "geoBoundaries-BGD-ADM4.geojson",
+    "mimetype": null,
+    "size": "325.5M"
+}
