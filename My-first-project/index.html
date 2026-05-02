@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+    <style>
+      #map {
+        height: 600px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <script>
+      // 1. Create map
+      var map = L.map("map").setView([43, -100], 4);
+
+      // 2. Add tile layer
+      L.tileLayer(
+        "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+        {
+          attribution: "&copy; OpenStreetMap contributors",
+        },
+      ).addTo(map);
+
+      // 3. Load data (GeoJSON + CSV)
+      Promise.all([
+        fetch(
+          "https://raw.githubusercontent.com/python-visualization/folium-example-data/main/us_states.json",
+        ).then((res) => res.json()),
+        fetch(
+          "https://raw.githubusercontent.com/python-visualization/folium-example-data/main/us_unemployment_oct_2012.csv",
+        ).then((res) => res.text()),
+      ]).then(([geoData, csvData]) => {
+        // 4. Convert CSV to dictionary
+        let unemployment = {};
+        let rows = csvData.split("\n").slice(1);
+
+        rows.forEach((row) => {
+          let [state, value] = row.split(",");
+          if (state && value) {
+            unemployment[state] = parseFloat(value);
+          }
+        });
+
+        // 5. Color function
+        function getColor(state) {
+          return unemployment[state] > 6.5 ? "#ff0000" : "#008000";
+        }
+
+        // 6. Add GeoJSON layer
+        L.geoJSON(geoData, {
+          style: function (feature) {
+            return {
+              fillColor: getColor(feature.id),
+              color: "black",
+              weight: 2,
+              dashArray: "5,5",
+              fillOpacity: 0.7,
+            };
+          },
+        }).addTo(map);
+      });
+    </script>
+  </body>
+</html>
